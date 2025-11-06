@@ -94,18 +94,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setUser(userResponse.data);
   };
 
-  /* 로그아웃 함수 */
   const logout = () => {
-    // try {
-    //   await apiClient.delete("/api/auth/user/session");
-    // } catch (error) {
-    //   console.error("로그아웃 실패 - 클라이언트 측 정보 지우기만 진행", error);
-    // } finally {
-    //   localStorage.removeItem("authToken");
-    //   setUser(null);
-    // }
-
-    // 클라이언트 토큰 값만 삭제
     localStorage.removeItem('authToken');
     setUser(null);
   };
@@ -115,15 +104,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       {children}
     </AuthContext.Provider>
   );
-  // end of AuthProvider
 };
 
-// // custom Hook -> 다른 컴포넌트들에서 사용
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (context === undefined) {
     throw new Error('useAuth는 AuthProvider 안에서 사용되어야 함');
   }
   return context;
-  // end of useAuth
 };

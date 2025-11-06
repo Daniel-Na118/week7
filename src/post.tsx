@@ -8,8 +8,8 @@ import {
   useState,
 } from 'react';
 import apiClient from './api';
-import type { Post } from './type';
 import { useAuth } from './auth';
+import type { Post } from './type';
 
 interface ApiAuthor {
   id: string;
@@ -54,8 +54,7 @@ export const encodeQueryParams = ({
 }: {
   params: Record<
     string,
-    |
-    string
+    | string
     | number
     | boolean
     | string[]

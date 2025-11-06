@@ -1,10 +1,10 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { AuthProvider } from './auth';
+import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import Home from './Home';
 import Login from './Login';
-import { PostProvider } from './post';
 import Signup from './Signup';
 import Topbar from './Topbar';
+import { AuthProvider } from './auth';
+import { PostProvider } from './post';
 
 const App = () => {
   return (

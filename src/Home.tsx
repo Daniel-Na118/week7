@@ -2,8 +2,8 @@ import { type ChangeEvent, useEffect, useState } from 'react';
 import { FaAngleDown, FaAngleUp, FaArrowRotateRight } from 'react-icons/fa6';
 import { useNavigate } from 'react-router-dom';
 import styles from './Home.module.css';
-import { encodeQueryParams, usePosts } from './post';
 import InternCard from './InternCard';
+import { encodeQueryParams, usePosts } from './post';
 
 type OpenDropdownType = 'rec' | 'dm' | 'new' | null;
 
@@ -72,13 +72,15 @@ const Home = () => {
 
   // when filter settings change, re-calculate query (leads to above useEffect, i.e fetchPosts)
   useEffect(() => {
-    const q: string = encodeQueryParams({params: {
+    const q: string = encodeQueryParams({
+      params: {
         roles: roles.length === 0 ? null : roles,
         isActive: isActive,
         domains: domains.length === DOMAINS.length ? null : domains, // if null -> all domains
         order: order,
         page: currentPage - 1,
-    }});
+      },
+    });
     setQuery(q);
   }, [roles, isActive, domains, order, currentPage]);
 
@@ -323,13 +325,13 @@ const Home = () => {
                     </div>
                     <div className={styles.modalActions}>
                       <button
-                        className={`${styles.btn} ${styles.btnReset}`}
+                        className="btn btn-reset"
                         onClick={() => setRecStatus('all')}
                       >
                         초기화
                       </button>
                       <button
-                        className={`${styles.btn} ${styles.btnApply}`}
+                        className="btn btn-apply"
                         onClick={() => {
                           setIsActive(recStatus === 'recruiting');
                           setOpenDropdown(null);
@@ -473,13 +475,13 @@ const Home = () => {
                     </div>
                     <div className={styles.modalActions}>
                       <button
-                        className={`${styles.btn} ${styles.btnReset}`}
+                        className="btn btn-reset"
                         onClick={() => setDmStatus(DOMAINS)}
                       >
                         초기화
                       </button>
                       <button
-                        className={`${styles.btn} ${styles.btnApply}`}
+                        className="btn btn-apply"
                         onClick={() => {
                           setDomain(dmStatus);
                           setOpenDropdown(null);
@@ -532,13 +534,13 @@ const Home = () => {
                     </div>
                     <div className={styles.modalActions}>
                       <button
-                        className={`${styles.btn} ${styles.btnReset}`}
+                        className="btn btn-reset"
                         onClick={() => setOrderStatus(0)}
                       >
                         초기화
                       </button>
                       <button
-                        className={`${styles.btn} ${styles.btnApply}`}
+                        className="btn btn-apply"
                         onClick={() => {
                           setOrder(orderStatus);
                           setOpenDropdown(null);
@@ -573,7 +575,6 @@ const Home = () => {
 
             <div className={styles.pagination}>
               <button
-                className={`${styles.btn}`}
                 onClick={() => handlePageChange(currentPage - 1)}
                 disabled={currentPage === 1}
               >
@@ -581,7 +582,6 @@ const Home = () => {
               </button>
               {renderPageNumbers()}
               <button
-                className={`${styles.btn}`}
                 onClick={() => handlePageChange(currentPage + 1)}
                 disabled={currentPage === totalPages}
               >
@@ -603,14 +603,14 @@ const Home = () => {
               <div className={styles.modalActions}>
                 <button
                   type="button"
-                  className={`${styles.btn} ${styles.btnReset}`}
+                  className="btn btn-secondary"
                   onClick={() => setIsModalOpen(false)}
                 >
                   뒤로가기
                 </button>
                 <button
                   type="button"
-                  className={`${styles.btn} ${styles.btnApply}`}
+                  className="btn btn-primary"
                   onClick={() => navigate('/login')}
                 >
                   로그인하기
