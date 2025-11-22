@@ -8,20 +8,17 @@ import {
 import apiClient from './api';
 import type { LoginData, SignupData } from './type';
 
-/* 통합 시 export 주석 해제하기  */
-interface User {
+export interface User {
   id: string;
   name: string;
   email: string;
   userRole: string;
 }
 
-// 인증 상태(isLogined) 관리 위한 context의 type
 interface AuthContextType {
+  token: string | null;
   user: User | null;
-  isLoading: boolean; // api 응답이 왔는지의 여부
-  /* signup, login api 요청들 : 
-	SignupData or LoginData를 받아서 Promise 형태의 응답을 return. */
+  isLoading: boolean;
   signUp: (data: SignupData) => Promise<void>;
   login: (data: LoginData) => Promise<void>;
   logout: () => void;
@@ -30,77 +27,69 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
+  const [token, setToken] = useState<string | null>(localStorage.getItem('authToken'));
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  // 앱 렌더 시 저장된 토큰 있는지 확인
   useEffect(() => {
     const checkLogined = async () => {
-      // 저장된 인증 토큰 있는지 확인 (있으면 로그인 유지)
-      const token = localStorage.getItem('authToken');
-
       if (token) {
         try {
           const response = await apiClient.get<User>('/api/auth/me');
           setUser(response.data);
         } catch (error) {
-          console.error('토큰을 가진 유저 가져오기 실패', error);
+          console.error('Failed to fetch user info', error);
+          setToken(null);
           localStorage.removeItem('authToken');
         }
       }
       setIsLoading(false);
-    }; // end of checkLogined()
+    };
 
     checkLogined();
-  }, []);
+  }, [token]);
 
-  /* 회원가입 함수 */
   const signUp = async (data: SignupData) => {
-    // apiClient로 api call 보내기
     const response = await apiClient.post('/api/auth/user', {
-      authType: 'APPLICANT', //고정
+      authType: 'APPLICANT',
       info: {
-        type: 'APPLICANT', // 고정
+        type: 'APPLICANT',
         name: data.name,
         email: data.email,
         password: data.password,
-        successCode: 'success', // 값 변경 가능
-      }, // end of info
-    }); // end of apiClient.post();
+        successCode: 'success',
+      },
+    });
 
-    // 회원가입 response에서 token만 가져오기
-    const { token } = response.data;
-    // 인증 token : localStorage에 저장
-    localStorage.setItem('authToken', token);
+    const { token: newToken } = response.data;
+    setToken(newToken);
+    localStorage.setItem('authToken', newToken);
 
-    // signup 후 자동 로그인
     const userResponse = await apiClient.get<User>('/api/auth/me');
     setUser(userResponse.data);
   };
 
-  /* 로그인 함수 */
   const login = async (data: LoginData) => {
     const response = await apiClient.post('/api/auth/user/session', {
       email: data.email,
       password: data.password,
     });
-    const { token } = response.data;
+    const { token: newToken } = response.data;
+    setToken(newToken);
+    localStorage.setItem('authToken', newToken);
 
-    // 로그인 상태
-    localStorage.setItem('authToken', token);
-
-    // 유저 정보
     const userResponse = await apiClient.get<User>('/api/auth/me');
     setUser(userResponse.data);
   };
 
   const logout = () => {
+    setToken(null);
     localStorage.removeItem('authToken');
     setUser(null);
   };
 
   return (
-    <AuthContext.Provider value={{ user, isLoading, signUp, login, logout }}>
+    <AuthContext.Provider value={{ token, user, isLoading, signUp, login, logout }}>
       {children}
     </AuthContext.Provider>
   );
@@ -109,7 +98,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (context === undefined) {
-    throw new Error('useAuth는 AuthProvider 안에서 사용되어야 함');
+    throw new Error('useAuth must be used within an AuthProvider');
   }
   return context;
 };

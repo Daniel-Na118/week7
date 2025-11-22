@@ -1,22 +1,33 @@
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import Home from './Home';
-import Login from './Login';
-import Signup from './Signup';
-import Topbar from './Topbar';
-import { AuthProvider } from './auth';
+import LoginPage from './pages/LoginPage';
+import SignupPage from './pages/SignupPage';
+import Header from './components/Header';
+import { AuthProvider, useAuth } from './auth';
 import { PostProvider } from './post';
+import './style.css';
+
+const AppContent = () => {
+  const { user, login, logout } = useAuth();
+
+  return (
+    <>
+      <Header user={user} onLogout={logout} />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<LoginPage onLogin={login} />} />
+        <Route path="/signup" element={<SignupPage onLogin={login} />} />
+      </Routes>
+    </>
+  );
+}
 
 const App = () => {
   return (
     <Router>
       <AuthProvider>
         <PostProvider>
-          <Topbar />
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<Signup />} />
-          </Routes>
+          <AppContent />
         </PostProvider>
       </AuthProvider>
     </Router>
