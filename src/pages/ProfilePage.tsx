@@ -187,7 +187,9 @@ const ProfilePage = () => {
           {departments.map((department, index) => (
             <div
               key={index}
-              className={index > 0 ? styles.departmentInput : styles.firstDepartmentInput}
+              className={
+                index > 0 ? styles.departmentInput : styles.firstDepartmentInput
+              }
             >
               <input
                 type="text"
