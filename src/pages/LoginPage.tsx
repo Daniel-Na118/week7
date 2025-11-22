@@ -1,14 +1,14 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import type { LoginData } from '../type';
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import type { LoginData } from "../type";
 
 interface LoginPageProps {
   onLogin: (data: LoginData) => Promise<void>;
 }
 
 const LoginPage = ({ onLogin }: LoginPageProps) => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
@@ -16,10 +16,10 @@ const LoginPage = ({ onLogin }: LoginPageProps) => {
     e.preventDefault();
     try {
       await onLogin({ email: `${email}@snu.ac.kr`, password });
-      navigate('/');
+      navigate("/");
     } catch (error) {
       console.error(error);
-      alert('Login failed. Please check your credentials.');
+      alert("Login failed. Please check your credentials.");
     }
   };
 
@@ -42,7 +42,7 @@ const LoginPage = ({ onLogin }: LoginPageProps) => {
           <label>비밀번호</label>
           <div className="password-input-wrapper">
             <input
-              type={showPassword ? 'text' : 'password'}
+              type={showPassword ? "text" : "password"}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />

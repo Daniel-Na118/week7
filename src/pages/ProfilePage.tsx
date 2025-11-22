@@ -1,8 +1,8 @@
-import axios from 'axios';
-import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import apiClient from '../api';
-import styles from './ProfilePage.module.css';
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import apiClient from "../api";
+import styles from "./ProfilePage.module.css";
 
 interface ProfileData {
   enrollYear: number;
@@ -11,36 +11,36 @@ interface ProfileData {
 }
 
 const ProfilePage = () => {
-  const [enrollYear, setEnrollYear] = useState('');
-  const [departments, setDepartments] = useState<string[]>(['']);
+  const [enrollYear, setEnrollYear] = useState("");
+  const [departments, setDepartments] = useState<string[]>([""]);
   const [cvFile, setCvFile] = useState<File | null>(null);
   const [cvFileName, setCvFileName] = useState<string | null>(null);
 
-  const [enrollYearError, setEnrollYearError] = useState('');
-  const [departmentsError, setDepartmentsError] = useState('');
-  const [cvError, setCvError] = useState('');
-  const [generalError, setGeneralError] = useState('');
+  const [enrollYearError, setEnrollYearError] = useState("");
+  const [departmentsError, setDepartmentsError] = useState("");
+  const [cvError, setCvError] = useState("");
+  const [generalError, setGeneralError] = useState("");
 
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const response = await apiClient.get('/api/applicant/me');
+        const response = await apiClient.get("/api/applicant/me");
         const data: ProfileData = response.data;
         setEnrollYear(data.enrollYear.toString().slice(-2));
-        setDepartments(data.department.split(','));
-        setCvFileName(data.cvKey.split('/').pop() || null);
+        setDepartments(data.department.split(","));
+        setCvFileName(data.cvKey.split("/").pop() || null);
       } catch (error: unknown) {
         if (
           axios.isAxiosError(error) &&
           error.response &&
-          error.response.data.code === 'APPLICANT_002'
+          error.response.data.code === "APPLICANT_002"
         ) {
           // Profile does not exist, so we are creating a new one
         } else {
-          console.error('Failed to fetch profile:', error);
-          setGeneralError('Failed to load profile data.');
+          console.error("Failed to fetch profile:", error);
+          setGeneralError("Failed to load profile data.");
         }
       }
     };
@@ -51,12 +51,12 @@ const ProfilePage = () => {
     const newDepartments = [...departments];
     newDepartments[index] = value;
     setDepartments(newDepartments);
-    setDepartmentsError('');
+    setDepartmentsError("");
   };
 
   const addDepartment = () => {
     if (departments.length < 7) {
-      setDepartments([...departments, '']);
+      setDepartments([...departments, ""]);
     }
   };
 
@@ -71,21 +71,21 @@ const ProfilePage = () => {
   const handleCvChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
-      if (file.type !== 'application/pdf') {
-        setCvError('Only PDF files are allowed for CV.');
+      if (file.type !== "application/pdf") {
+        setCvError("Only PDF files are allowed for CV.");
         setCvFile(null);
         setCvFileName(null);
         return;
       }
       if (file.size > 5 * 1024 * 1024) {
-        setCvError('CV file size cannot exceed 5MB.');
+        setCvError("CV file size cannot exceed 5MB.");
         setCvFile(null);
         setCvFileName(null);
         return;
       }
       setCvFile(file);
       setCvFileName(file.name);
-      setCvError('');
+      setCvError("");
     }
   };
 
@@ -94,33 +94,33 @@ const ProfilePage = () => {
 
     // Validate enrollYear
     if (!enrollYear || !/^\d{2}$/.test(enrollYear)) {
-      setEnrollYearError('두 자리 숫자로 작성해주세요. (e.g. 25)');
+      setEnrollYearError("두 자리 숫자로 작성해주세요. (e.g. 25)");
       isValid = false;
     } else {
-      setEnrollYearError('');
+      setEnrollYearError("");
     }
 
     // Validate departments
     if (departments.some((dep) => !dep.trim())) {
       setDepartmentsError(
-        '주전공은 필수 작성이며, 다전공은 총 6개 이하로 중복되지 않게 입력해주세요.'
+        "주전공은 필수 작성이며, 다전공은 총 6개 이하로 중복되지 않게 입력해주세요.",
       );
       isValid = false;
     } else if (new Set(departments).size !== departments.length) {
       setDepartmentsError(
-        '주전공은 필수 작성이며, 다전공은 총 6개 이하로 중복되지 않게 입력해주세요.'
+        "주전공은 필수 작성이며, 다전공은 총 6개 이하로 중복되지 않게 입력해주세요.",
       );
       isValid = false;
     } else {
-      setDepartmentsError('');
+      setDepartmentsError("");
     }
 
     // Validate CV
     if (!cvFile && !cvFileName) {
-      setCvError('5MB 이하의 PDF 파일을 올려주세요.');
+      setCvError("5MB 이하의 PDF 파일을 올려주세요.");
       isValid = false;
     } else {
-      setCvError('');
+      setCvError("");
     }
 
     return isValid;
@@ -128,7 +128,7 @@ const ProfilePage = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setGeneralError(''); // Clear general error before validation
+    setGeneralError(""); // Clear general error before validation
 
     if (!validateForm()) {
       return;
@@ -138,25 +138,25 @@ const ProfilePage = () => {
       parseInt(enrollYear) < 50
         ? 2000 + parseInt(enrollYear)
         : 1900 + parseInt(enrollYear);
-    const formattedDepartments = departments.join(',');
+    const formattedDepartments = departments.join(",");
     const randomString = Math.random().toString(36).substring(2, 12);
     const date = new Date();
-    const formattedDate = `${date.getFullYear()}${(date.getMonth() + 1).toString().padStart(2, '0')}${date.getDate().toString().padStart(2, '0')}`;
+    const formattedDate = `${date.getFullYear()}${(date.getMonth() + 1).toString().padStart(2, "0")}${date.getDate().toString().padStart(2, "0")}`;
     const cvKey = cvFileName
       ? `static/private/CV/${randomString}_${formattedDate}/${cvFileName}`
-      : '';
+      : "";
 
     try {
-      await apiClient.put('/api/applicant/me', {
+      await apiClient.put("/api/applicant/me", {
         enrollYear: formattedEnrollYear,
         department: formattedDepartments,
         cvKey: cvKey,
       });
-      alert('Profile saved successfully!');
-      navigate('/mypage');
+      alert("Profile saved successfully!");
+      navigate("/mypage");
     } catch (error) {
-      console.error('Failed to save profile:', error);
-      setGeneralError('Failed to save profile. Please try again.');
+      console.error("Failed to save profile:", error);
+      setGeneralError("Failed to save profile. Please try again.");
     }
   };
 
@@ -187,7 +187,9 @@ const ProfilePage = () => {
           {departments.map((department, index) => (
             <div
               key={index}
-              className={index > 0 ? styles.departmentInput : styles.firstDepartmentInput}
+              className={
+                index > 0 ? styles.departmentInput : styles.firstDepartmentInput
+              }
             >
               <input
                 type="text"
@@ -224,7 +226,7 @@ const ProfilePage = () => {
                 onClick={() => {
                   setCvFile(null);
                   setCvFileName(null);
-                  setCvError('');
+                  setCvError("");
                 }}
                 className={`${styles.button} ${styles.deleteButton}`}
               >
@@ -239,7 +241,7 @@ const ProfilePage = () => {
                 type="file"
                 accept=".pdf"
                 onChange={handleCvChange}
-                style={{ display: 'none' }}
+                style={{ display: "none" }}
               />
             </div>
           )}

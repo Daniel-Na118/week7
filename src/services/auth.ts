@@ -1,14 +1,14 @@
-import apiClient from '../api';
+import apiClient from "../api";
 
 export const signup = async (name: string, email: string, password: string) => {
   const response = await apiClient.post(`/api/auth/user`, {
-    authType: 'APPLICANT',
+    authType: "APPLICANT",
     info: {
-      type: 'APPLICANT',
+      type: "APPLICANT",
       name,
       email,
       password,
-      successCode: 'string',
+      successCode: "string",
     },
   });
   return response.data;

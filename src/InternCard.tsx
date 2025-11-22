@@ -1,8 +1,8 @@
-import { FaBookmark, FaRegBookmark } from 'react-icons/fa6';
-import styles from './InternCard.module.css';
-import { useAuth } from './auth';
-import { usePosts } from './post';
-import type { Post } from './type';
+import { FaBookmark, FaRegBookmark } from "react-icons/fa6";
+import styles from "./InternCard.module.css";
+import { useAuth } from "./auth";
+import { usePosts } from "./post";
+import type { Post } from "./type";
 
 interface InternCardProps {
   post: Post;
@@ -14,15 +14,15 @@ const InternCard = ({ post, onLoginRequired }: InternCardProps) => {
   const { toggleBookmark } = usePosts();
 
   const DOMAIN_MAP: { [key: string]: string } = {
-    FINTECH: '핀테크',
-    HEALTHTECH: '헬스테크',
-    EDUCATION: '교육',
-    ECOMMERCE: '이커머스',
-    FOODTECH: '푸드테크',
-    MOBILITY: '모빌리티',
-    CONTENTS: '컨텐츠',
-    B2B: 'B2B',
-    OTHERS: '기타',
+    FINTECH: "핀테크",
+    HEALTHTECH: "헬스테크",
+    EDUCATION: "교육",
+    ECOMMERCE: "이커머스",
+    FOODTECH: "푸드테크",
+    MOBILITY: "모빌리티",
+    CONTENTS: "컨텐츠",
+    B2B: "B2B",
+    OTHERS: "기타",
   };
 
   const handleBookmarkClick = async () => {
@@ -34,25 +34,25 @@ const InternCard = ({ post, onLoginRequired }: InternCardProps) => {
   };
 
   const calculateDday = (dateString: string | null | undefined) => {
-    if (!dateString || dateString === '상시') return '상시';
+    if (!dateString || dateString === "상시") return "상시";
     const endDate = new Date(dateString);
     const today = new Date();
     // UTC 기준으로 변환하여 계산
     const utcEndDate = Date.UTC(
       endDate.getFullYear(),
       endDate.getMonth(),
-      endDate.getDate()
+      endDate.getDate(),
     );
     const utcToday = Date.UTC(
       today.getFullYear(),
       today.getMonth(),
-      today.getDate()
+      today.getDate(),
     );
     const diffTime = utcEndDate - utcToday;
     const diffDays = diffTime / (1000 * 60 * 60 * 24);
 
-    if (diffDays < 0) return '마감';
-    if (diffDays === 0) return 'D-day';
+    if (diffDays < 0) return "마감";
+    if (diffDays === 0) return "D-day";
     return `D-${diffDays}`;
   };
 
@@ -91,9 +91,9 @@ const InternCard = ({ post, onLoginRequired }: InternCardProps) => {
       <div className={styles.footer}>
         <span
           className={
-            dDay === '상시'
+            dDay === "상시"
               ? styles.alwaysHiring
-              : dDay === '마감'
+              : dDay === "마감"
                 ? styles.deadline
                 : styles.dDay
           }
