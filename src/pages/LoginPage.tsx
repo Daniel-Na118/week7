@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { LoginData } from '../type';
+import type { LoginData } from '../type';
 
 interface LoginPageProps {
   onLogin: (data: LoginData) => Promise<void>;

@@ -31,13 +31,14 @@
 }
 
 .studentIdInput input {
-  width: calc(100% - 80px); /* 80px shorter than other input boxes */
+  width: calc(100% - 80px);
 }
 
 .studentIdInput {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  width: 100%;
 }
 
 .cvInput {
@@ -52,8 +53,8 @@
   gap: 1rem;
 }
 
-.departmentInput input {
-  width: calc(100% - 80px); /* 80px shorter than other input boxes */
+.firstDepartmentInput input {
+  width: 100%;
 }
 
 .departmentInput button {

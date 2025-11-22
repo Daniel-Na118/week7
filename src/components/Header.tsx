@@ -1,5 +1,5 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { User } from '../auth';
+import type { User } from '../auth';
 
 interface HeaderProps {
   user?: User | null;

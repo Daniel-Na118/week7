@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { FaBookmark } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import apiClient from '../api';
-import { Post } from '../type';
+import type { Post } from '../type';
 import styles from './MyPage.module.css';
 
 interface Profile {
@@ -94,6 +94,11 @@ const MyPage = () => {
         >
           내 정보
         </div>
+        {activeTab === 'info' && !profileExists && (
+          <Link to="/profile" className={styles.editProfileButton}>
+            내 프로필 생성
+          </Link>
+        )}
         {activeTab === 'info' && profileExists && (
           <Link to="/profile" className={styles.editProfileButton}>
             내 프로필 수정

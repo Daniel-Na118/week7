@@ -18,7 +18,7 @@ const AppContent = () => {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<LoginPage onLogin={login} />} />
-        <Route path="/signup" element={<SignupPage onLogin={login} />} />
+        <Route path="/signup" element={<SignupPage />} />
         <Route path="/mypage" element={<MyPage />} />
         <Route path="/profile" element={<ProfilePage />} />
       </Routes>
