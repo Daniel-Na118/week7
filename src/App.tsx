@@ -8,6 +8,9 @@ import ProfilePage from './pages/ProfilePage';
 import SignupPage from './pages/SignupPage';
 import { PostProvider } from './post';
 import './style.css';
+// App.tsx 파일 상단에 임시로 추가하여 사용되는 것처럼 만듭니다.
+import './services/auth';
+import './pages/HomePage';
 
 const AppContent = () => {
   const { user, login, logout } = useAuth();
