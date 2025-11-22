@@ -1,9 +1,11 @@
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import Home from './Home';
-import LoginPage from './pages/LoginPage';
-import SignupPage from './pages/SignupPage';
-import Header from './components/Header';
 import { AuthProvider, useAuth } from './auth';
+import Header from './components/Header';
+import LoginPage from './pages/LoginPage';
+import MyPage from './pages/MyPage';
+import ProfilePage from './pages/ProfilePage';
+import SignupPage from './pages/SignupPage';
 import { PostProvider } from './post';
 import './style.css';
 
@@ -17,10 +19,12 @@ const AppContent = () => {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<LoginPage onLogin={login} />} />
         <Route path="/signup" element={<SignupPage onLogin={login} />} />
+        <Route path="/mypage" element={<MyPage />} />
+        <Route path="/profile" element={<ProfilePage />} />
       </Routes>
     </>
   );
-}
+};
 
 const App = () => {
   return (

@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { login } from '../services/auth';
+import { LoginData } from '../type';
 
 interface LoginPageProps {
-  onLogin: (token: string) => void;
+  onLogin: (data: LoginData) => Promise<void>;
 }
 
 const LoginPage = ({ onLogin }: LoginPageProps) => {
@@ -15,8 +15,7 @@ const LoginPage = ({ onLogin }: LoginPageProps) => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      const { token } = await login(`${email}@snu.ac.kr`, password);
-      onLogin(token);
+      await onLogin({ email: `${email}@snu.ac.kr`, password });
       navigate('/');
     } catch (error) {
       console.error(error);

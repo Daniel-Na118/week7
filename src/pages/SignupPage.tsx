@@ -1,12 +1,8 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { login, signup } from '../services/auth';
+import { useAuth } from '../auth';
 
-interface SignupPageProps {
-  onLogin: (token: string) => void;
-}
-
-const SignupPage = ({ onLogin }: SignupPageProps) => {
+const SignupPage = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -14,6 +10,7 @@ const SignupPage = ({ onLogin }: SignupPageProps) => {
   const [showPassword, setShowPassword] = useState(false);
   const [passwordFocused, setPasswordFocused] = useState(false);
   const navigate = useNavigate();
+  const { signUp } = useAuth();
 
   const hasSequential = (str: string) => {
     if (str.length < 3) return false;
@@ -50,9 +47,7 @@ const SignupPage = ({ onLogin }: SignupPageProps) => {
       return;
     }
     try {
-      await signup(name, `${email}@snu.ac.kr`, password);
-      const { token } = await login(`${email}@snu.ac.kr`, password);
-      onLogin(token);
+      await signUp({ name, email: `${email}@snu.ac.kr`, password });
       navigate('/');
     } catch (error) {
       console.error(error);
