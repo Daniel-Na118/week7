@@ -1,13 +1,13 @@
-import axios from "axios";
+import axios from 'axios';
 
 const apiClient = axios.create({
-  baseURL: "https://api-internhasha.wafflestudio.com",
+  baseURL: 'https://api-internhasha.wafflestudio.com',
   // withCredentials: true, // refresh_token 첨부
 });
 // 인증 토큰 필요 X인 endpoint들
 const publicPaths = [
-  "/api/auth/user", //회원가입
-  "/api/auth/user/session", //로그인
+  '/api/auth/user', //회원가입
+  '/api/auth/user/session', //로그인
 ];
 
 // endpoints needing auth
@@ -18,10 +18,10 @@ apiClient.interceptors.request.use(
     const isPublicPath =
       config.url &&
       publicPaths.includes(config.url) &&
-      config.method === "post";
+      config.method === 'post';
 
     if (!isPublicPath) {
-      const token = localStorage.getItem("authToken");
+      const token = localStorage.getItem('authToken');
 
       if (token) {
         config.headers.Authorization = `Bearer ${token}`;
@@ -32,7 +32,7 @@ apiClient.interceptors.request.use(
   },
   (error) => {
     return Promise.reject(error);
-  },
+  }
 );
 
 export default apiClient;

@@ -1,34 +1,34 @@
-import { type ChangeEvent, useEffect, useState } from "react";
-import { FaAngleDown, FaAngleUp, FaArrowRotateRight } from "react-icons/fa6";
-import { useNavigate } from "react-router-dom";
-import styles from "./Home.module.css";
-import InternCard from "./InternCard";
-import { encodeQueryParams, usePosts } from "./post";
+import { type ChangeEvent, useEffect, useState } from 'react';
+import { FaAngleDown, FaAngleUp, FaArrowRotateRight } from 'react-icons/fa6';
+import { useNavigate } from 'react-router-dom';
+import styles from './Home.module.css';
+import InternCard from './InternCard';
+import { encodeQueryParams, usePosts } from './post';
 
-type OpenDropdownType = "rec" | "dm" | "new" | null;
+type OpenDropdownType = 'rec' | 'dm' | 'new' | null;
 
 const Home = () => {
   const DOMAINS: string[] = [
-    "FINTECH",
-    "HEALTHTECH",
-    "EDUCATION",
-    "ECOMMERCE",
-    "FOODTECH",
-    "MOBILITY",
-    "CONTENTS",
-    "B2B",
-    "OTHERS",
+    'FINTECH',
+    'HEALTHTECH',
+    'EDUCATION',
+    'ECOMMERCE',
+    'FOODTECH',
+    'MOBILITY',
+    'CONTENTS',
+    'B2B',
+    'OTHERS',
   ];
 
-  const DEV: string[] = ["FRONT", "APP", "BACKEND", "OTHERS"];
+  const DEV: string[] = ['FRONT', 'APP', 'BACKEND', 'OTHERS'];
 
   const { posts, isLoading, fetchPosts, paginator } = usePosts();
   const [panelExpanded, setPanelExpanded] = useState(false);
   const [roles, setRoles] = useState<string[]>([]);
 
   const [isActive, setIsActive] = useState(false);
-  const [recStatus, setRecStatus] = useState<"all" | "recruiting">(
-    isActive ? "recruiting" : "all",
+  const [recStatus, setRecStatus] = useState<'all' | 'recruiting'>(
+    isActive ? 'recruiting' : 'all'
   );
 
   const [domains, setDomain] = useState<string[]>(DOMAINS);
@@ -37,7 +37,7 @@ const Home = () => {
   const [order, setOrder] = useState<number>(0);
   const [orderStatus, setOrderStatus] = useState<number>(0);
 
-  const [query, setQuery] = useState<string>("");
+  const [query, setQuery] = useState<string>('');
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
@@ -87,7 +87,7 @@ const Home = () => {
   // role check
   const handleRoleCheck = (e: ChangeEvent<HTMLInputElement>) => {
     const { checked, value } = e.currentTarget;
-    if (value === "total") {
+    if (value === 'total') {
       if (checked)
         setRoles((p) => [...DEV, ...p.filter((v) => !DEV.includes(v))]);
       else setRoles((p) => [...p.filter((v) => !DEV.includes(v))]);
@@ -103,7 +103,7 @@ const Home = () => {
   // domain check
   const handleDomainCheck = (e: ChangeEvent<HTMLInputElement>) => {
     const { checked, value } = e.currentTarget;
-    if (value === "all") {
+    if (value === 'all') {
       if (checked) {
         setDmStatus(DOMAINS);
       } else {
@@ -123,7 +123,7 @@ const Home = () => {
     setDomain(DOMAINS);
     setOrder(0);
 
-    setRecStatus("all");
+    setRecStatus('all');
     setDmStatus(DOMAINS);
     setOrderStatus(0);
     setCurrentPage(1);
@@ -147,12 +147,12 @@ const Home = () => {
           onClick={() => !isDisabled && handlePageChange(i)}
           disabled={isDisabled}
           className={`
-           ${currentPage === i ? styles.activePage : ""}
-            ${isDisabled ? styles.disabledPage : ""} 
+           ${currentPage === i ? styles.activePage : ''}
+            ${isDisabled ? styles.disabledPage : ''} 
             `}
         >
           {i}
-        </button>,
+        </button>
       );
     }
     return pageNumbers;
@@ -198,7 +198,7 @@ const Home = () => {
                       id="check-dev-front"
                       name="check-dev-front"
                       value="FRONT"
-                      checked={roles.includes("FRONT")}
+                      checked={roles.includes('FRONT')}
                       onChange={handleRoleCheck}
                     ></input>
                   </div>
@@ -209,7 +209,7 @@ const Home = () => {
                       id="check-dev-backend"
                       name="backend"
                       value="BACKEND"
-                      checked={roles.includes("BACKEND")}
+                      checked={roles.includes('BACKEND')}
                       onChange={handleRoleCheck}
                     ></input>
                   </div>
@@ -220,7 +220,7 @@ const Home = () => {
                       id="check-dev-app"
                       name="app"
                       value="APP"
-                      checked={roles.includes("APP")}
+                      checked={roles.includes('APP')}
                       onChange={handleRoleCheck}
                     ></input>
                   </div>
@@ -231,7 +231,7 @@ const Home = () => {
                       id="check-dev-others"
                       name="others"
                       value="OTHERS"
-                      checked={roles.includes("OTHERS")}
+                      checked={roles.includes('OTHERS')}
                       onChange={handleRoleCheck}
                     ></input>
                   </div>
@@ -246,7 +246,7 @@ const Home = () => {
                       id="project-total"
                       name="PLANNING"
                       value="PLANNING"
-                      checked={roles.includes("PLANNING")}
+                      checked={roles.includes('PLANNING')}
                       onChange={handleRoleCheck}
                     ></input>
                   </div>
@@ -261,7 +261,7 @@ const Home = () => {
                       id="design-total"
                       name="DESIGN"
                       value="DESIGN"
-                      checked={roles.includes("DESIGN")}
+                      checked={roles.includes('DESIGN')}
                       onChange={handleRoleCheck}
                     ></input>
                   </div>
@@ -275,7 +275,7 @@ const Home = () => {
                       id="marketing-total"
                       name="MARKETING"
                       value="MARKETING"
-                      checked={roles.includes("MARKETING")}
+                      checked={roles.includes('MARKETING')}
                       onChange={handleRoleCheck}
                     ></input>
                   </div>
@@ -288,12 +288,12 @@ const Home = () => {
               {/* 모집 상태 옵션 버튼 */}
               <li
                 className={`${styles.chip} ${styles.modalTrigger}`}
-                onClick={() => handleDropdownToggle("rec")}
+                onClick={() => handleDropdownToggle('rec')}
               >
-                <span>모집 상태</span>{" "}
-                {openDropdown === "rec" ? <FaAngleUp /> : <FaAngleDown />}
+                <span>모집 상태</span>{' '}
+                {openDropdown === 'rec' ? <FaAngleUp /> : <FaAngleDown />}
                 {/* 모집 상태 팝업 */}
-                {openDropdown === "rec" && (
+                {openDropdown === 'rec' && (
                   <div
                     className={styles.modal}
                     onClick={(e) => e.stopPropagation()} // prevents clicks inside from closing modal
@@ -304,8 +304,8 @@ const Home = () => {
                           type="radio"
                           name="recStatus"
                           value="all"
-                          checked={recStatus === "all"}
-                          onChange={() => setRecStatus("all")}
+                          checked={recStatus === 'all'}
+                          onChange={() => setRecStatus('all')}
                         />
                         <span className={styles.radioVisual}></span>
                         <span>전체</span>
@@ -316,8 +316,8 @@ const Home = () => {
                           type="radio"
                           name="recStatus"
                           value="recruiting"
-                          checked={recStatus === "recruiting"}
-                          onChange={() => setRecStatus("recruiting")}
+                          checked={recStatus === 'recruiting'}
+                          onChange={() => setRecStatus('recruiting')}
                         />
                         <span className={styles.radioVisual}></span>
                         <span>모집중</span>
@@ -326,14 +326,14 @@ const Home = () => {
                     <div className={styles.modalActions}>
                       <button
                         className="btn btn-reset"
-                        onClick={() => setRecStatus("all")}
+                        onClick={() => setRecStatus('all')}
                       >
                         초기화
                       </button>
                       <button
                         className="btn btn-apply"
                         onClick={() => {
-                          setIsActive(recStatus === "recruiting");
+                          setIsActive(recStatus === 'recruiting');
                           setOpenDropdown(null);
                           setCurrentPage(1);
                         }}
@@ -348,12 +348,12 @@ const Home = () => {
               {/* 업종 옵션 버튼 */}
               <li
                 className={`${styles.chip} ${styles.modalTrigger}`}
-                onClick={() => handleDropdownToggle("dm")}
+                onClick={() => handleDropdownToggle('dm')}
               >
-                <span>업종</span>{" "}
-                {openDropdown === "dm" ? <FaAngleUp /> : <FaAngleDown />}
+                <span>업종</span>{' '}
+                {openDropdown === 'dm' ? <FaAngleUp /> : <FaAngleDown />}
                 {/* 업종 선택 팝업 */}
-                {openDropdown === "dm" && (
+                {openDropdown === 'dm' && (
                   <div
                     className={styles.modal}
                     onClick={(e) => e.stopPropagation()}
@@ -380,7 +380,7 @@ const Home = () => {
                           name="dmStatus"
                           id="fin"
                           value="FINTECH"
-                          checked={dmStatus?.includes("FINTECH")}
+                          checked={dmStatus?.includes('FINTECH')}
                           onChange={handleDomainCheck}
                         />
                       </div>
@@ -391,7 +391,7 @@ const Home = () => {
                           name="dmStatus"
                           id="ht"
                           value="HEALTHTECH"
-                          checked={dmStatus?.includes("HEALTHTECH")}
+                          checked={dmStatus?.includes('HEALTHTECH')}
                           onChange={handleDomainCheck}
                         />
                       </div>
@@ -402,7 +402,7 @@ const Home = () => {
                           name="dmStatus"
                           id="ed"
                           value="EDUCATION"
-                          checked={dmStatus?.includes("EDUCATION")}
+                          checked={dmStatus?.includes('EDUCATION')}
                           onChange={handleDomainCheck}
                         />
                       </div>
@@ -413,7 +413,7 @@ const Home = () => {
                           name="dmStatus"
                           id="ec"
                           value="ECOMMERCE"
-                          checked={dmStatus?.includes("ECOMMERCE")}
+                          checked={dmStatus?.includes('ECOMMERCE')}
                           onChange={handleDomainCheck}
                         />
                       </div>
@@ -424,7 +424,7 @@ const Home = () => {
                           name="dmStatus"
                           id="ft"
                           value="FOODTECH"
-                          checked={dmStatus?.includes("FOODTECH")}
+                          checked={dmStatus?.includes('FOODTECH')}
                           onChange={handleDomainCheck}
                         />
                       </div>
@@ -435,7 +435,7 @@ const Home = () => {
                           name="dmStatus"
                           id="mb"
                           value="MOBILITY"
-                          checked={dmStatus?.includes("MOBILITY")}
+                          checked={dmStatus?.includes('MOBILITY')}
                           onChange={handleDomainCheck}
                         />
                       </div>
@@ -446,7 +446,7 @@ const Home = () => {
                           name="dmStatus"
                           id="con"
                           value="CONTENTS"
-                          checked={dmStatus?.includes("CONTENTS")}
+                          checked={dmStatus?.includes('CONTENTS')}
                           onChange={handleDomainCheck}
                         />
                       </div>
@@ -457,7 +457,7 @@ const Home = () => {
                           name="dmStatus"
                           id="b2b"
                           value="B2B"
-                          checked={dmStatus?.includes("B2B")}
+                          checked={dmStatus?.includes('B2B')}
                           onChange={handleDomainCheck}
                         />
                       </div>
@@ -468,7 +468,7 @@ const Home = () => {
                           name="dmStatus"
                           id="others"
                           value="OTHERS"
-                          checked={dmStatus?.includes("OTHERS")}
+                          checked={dmStatus?.includes('OTHERS')}
                           onChange={handleDomainCheck}
                         />
                       </div>
@@ -498,12 +498,12 @@ const Home = () => {
               {/* 순서 */}
               <li
                 className={`${styles.chip} ${styles.modalTrigger}`}
-                onClick={() => handleDropdownToggle("new")}
+                onClick={() => handleDropdownToggle('new')}
               >
-                <span>최신순</span>{" "}
-                {openDropdown === "new" ? <FaAngleUp /> : <FaAngleDown />}
+                <span>최신순</span>{' '}
+                {openDropdown === 'new' ? <FaAngleUp /> : <FaAngleDown />}
                 {/* 순서 선택 팝업 */}
-                {openDropdown === "new" && (
+                {openDropdown === 'new' && (
                   <div
                     className={styles.modal}
                     onClick={(e) => e.stopPropagation()}
@@ -612,7 +612,7 @@ const Home = () => {
                 <button
                   type="button"
                   className="btn btn-primary"
-                  onClick={() => navigate("/login")}
+                  onClick={() => navigate('/login')}
                 >
                   로그인하기
                 </button>

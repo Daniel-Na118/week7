@@ -1,10 +1,10 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
-import { FaBookmark } from "react-icons/fa";
-import { Link } from "react-router-dom";
-import apiClient from "../api";
-import type { Post } from "../type";
-import styles from "./MyPage.module.css";
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+import { FaBookmark } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
+import apiClient from '../api';
+import type { Post } from '../type';
+import styles from './MyPage.module.css';
 
 interface Profile {
   name: string;
@@ -14,37 +14,37 @@ interface Profile {
 }
 
 const MyPage = () => {
-  const [activeTab, setActiveTab] = useState("bookmarks");
+  const [activeTab, setActiveTab] = useState('bookmarks');
   const [bookmarkedPosts, setBookmarkedPosts] = useState<Post[]>([]);
   const [profile, setProfile] = useState<Profile | null>(null);
   const [profileExists, setProfileExists] = useState(false);
 
   useEffect(() => {
-    if (activeTab === "bookmarks") {
+    if (activeTab === 'bookmarks') {
       const fetchBookmarkedPosts = async () => {
         try {
-          const response = await apiClient.get("/api/post/bookmarks");
+          const response = await apiClient.get('/api/post/bookmarks');
           setBookmarkedPosts(response.data.posts);
         } catch (error) {
-          console.error("Failed to fetch bookmarked posts:", error);
+          console.error('Failed to fetch bookmarked posts:', error);
         }
       };
       fetchBookmarkedPosts();
-    } else if (activeTab === "info") {
+    } else if (activeTab === 'info') {
       const fetchProfile = async () => {
         try {
-          const response = await apiClient.get("/api/applicant/me");
+          const response = await apiClient.get('/api/applicant/me');
           setProfile(response.data);
           setProfileExists(true);
         } catch (error: unknown) {
           if (
             axios.isAxiosError(error) &&
             error.response &&
-            error.response.data.code === "APPLICANT_002"
+            error.response.data.code === 'APPLICANT_002'
           ) {
             setProfileExists(false);
           } else {
-            console.error("Failed to fetch profile:", error);
+            console.error('Failed to fetch profile:', error);
           }
         }
       };
@@ -53,24 +53,24 @@ const MyPage = () => {
   }, [activeTab]);
 
   const calculateDday = (dateString: string | null | undefined) => {
-    if (!dateString || dateString === "상시") return "상시";
+    if (!dateString || dateString === '상시') return '상시';
     const endDate = new Date(dateString);
     const today = new Date();
     const utcEndDate = Date.UTC(
       endDate.getFullYear(),
       endDate.getMonth(),
-      endDate.getDate(),
+      endDate.getDate()
     );
     const utcToday = Date.UTC(
       today.getFullYear(),
       today.getMonth(),
-      today.getDate(),
+      today.getDate()
     );
     const diffTime = utcEndDate - utcToday;
     const diffDays = diffTime / (1000 * 60 * 60 * 24);
 
-    if (diffDays < 0) return "마감";
-    if (diffDays === 0) return "D-day";
+    if (diffDays < 0) return '마감';
+    if (diffDays === 0) return 'D-day';
     return `D-${diffDays}`;
   };
 
@@ -80,32 +80,32 @@ const MyPage = () => {
       <div className={styles.tabs}>
         <div
           className={`${styles.tab} ${
-            activeTab === "bookmarks" ? styles.activeTab : ""
+            activeTab === 'bookmarks' ? styles.activeTab : ''
           }`}
-          onClick={() => setActiveTab("bookmarks")}
+          onClick={() => setActiveTab('bookmarks')}
         >
           관심공고
         </div>
         <div
           className={`${styles.tab} ${
-            activeTab === "info" ? styles.activeTab : ""
+            activeTab === 'info' ? styles.activeTab : ''
           }`}
-          onClick={() => setActiveTab("info")}
+          onClick={() => setActiveTab('info')}
         >
           내 정보
         </div>
-        {activeTab === "info" && !profileExists && (
+        {activeTab === 'info' && !profileExists && (
           <Link to="/profile" className={styles.editProfileButton}>
             내 프로필 생성
           </Link>
         )}
-        {activeTab === "info" && profileExists && (
+        {activeTab === 'info' && profileExists && (
           <Link to="/profile" className={styles.editProfileButton}>
             내 프로필 수정
           </Link>
         )}
       </div>
-      {activeTab === "bookmarks" && (
+      {activeTab === 'bookmarks' && (
         <div>
           {bookmarkedPosts.map((post) => (
             <div key={post.id} className={styles.bookmarkCard}>
@@ -116,9 +116,9 @@ const MyPage = () => {
                 className={styles.deadline}
                 style={{
                   color:
-                    calculateDday(post.employmentEndDate) === "마감"
-                      ? "red"
-                      : "blue",
+                    calculateDday(post.employmentEndDate) === '마감'
+                      ? 'red'
+                      : 'blue',
                 }}
               >
                 {calculateDday(post.employmentEndDate)}
@@ -127,14 +127,14 @@ const MyPage = () => {
           ))}
         </div>
       )}
-      {activeTab === "info" && (
+      {activeTab === 'info' && (
         <div>
           {profileExists ? (
             <div className={styles.profileInfo}>
               <div className={styles.profileName}>{profile?.name}</div>
               <div className={styles.profileEmail}>{profile?.email}</div>
               <div className={styles.profileDetails}>
-                {profile?.department.split(",").join(", ")}{" "}
+                {profile?.department.split(',').join(', ')}{' '}
                 {profile?.enrollYear.toString().slice(-2)}학번
               </div>
             </div>

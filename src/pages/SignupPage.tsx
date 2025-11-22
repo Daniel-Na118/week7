@@ -1,12 +1,12 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { useAuth } from "../auth";
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../auth';
 
 const SignupPage = () => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [passwordConfirm, setPasswordConfirm] = useState("");
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [passwordConfirm, setPasswordConfirm] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [passwordFocused, setPasswordFocused] = useState(false);
   const navigate = useNavigate();
@@ -43,12 +43,12 @@ const SignupPage = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (password !== passwordConfirm) {
-      alert("Passwords do not match");
+      alert('Passwords do not match');
       return;
     }
     try {
       await signUp({ name, email: `${email}@snu.ac.kr`, password });
-      navigate("/");
+      navigate('/');
     } catch (error) {
       console.error(error);
     }
@@ -70,7 +70,7 @@ const SignupPage = () => {
           <label>비밀번호</label>
           <div className="password-input-wrapper">
             <input
-              type={showPassword ? "text" : "password"}
+              type={showPassword ? 'text' : 'password'}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               onFocus={() => setPasswordFocused(true)}
@@ -111,16 +111,16 @@ const SignupPage = () => {
         {passwordFocused && (
           <div>
             <p>
-              {passwordConditions.length ? "✓" : "✗"} 비밀번호 8자리 이상(필수)
+              {passwordConditions.length ? '✓' : '✗'} 비밀번호 8자리 이상(필수)
             </p>
-            <p>{passwordConditions.number ? "✓" : "✗"} 숫자 포함</p>
+            <p>{passwordConditions.number ? '✓' : '✗'} 숫자 포함</p>
             <p>
-              {passwordConditions.upper && passwordConditions.lower ? "✓" : "✗"}{" "}
+              {passwordConditions.upper && passwordConditions.lower ? '✓' : '✗'}{' '}
               영문 대소문자 포함
             </p>
-            <p>{passwordConditions.special ? "✓" : "✗"} 특수문자 포함</p>
+            <p>{passwordConditions.special ? '✓' : '✗'} 특수문자 포함</p>
             <p>
-              {passwordConditions.noSequential ? "✓" : "✗"} 연속된 문자열이나
+              {passwordConditions.noSequential ? '✓' : '✗'} 연속된 문자열이나
               숫자가 없어야 함
             </p>
           </div>

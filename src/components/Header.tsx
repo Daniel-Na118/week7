@@ -1,5 +1,5 @@
-import { Link, useNavigate } from "react-router-dom";
-import type { User } from "../auth";
+import { Link, useNavigate } from 'react-router-dom';
+import type { User } from '../auth';
 
 interface HeaderProps {
   user?: User | null;
@@ -11,7 +11,7 @@ const Header: React.FC<HeaderProps> = ({ user, onLogout }) => {
 
   const handleLogout = () => {
     onLogout();
-    navigate("/");
+    navigate('/');
   };
 
   return (

@@ -6,10 +6,10 @@ import {
   useEffect,
   useMemo,
   useState,
-} from "react";
-import apiClient from "./api";
-import { useAuth } from "./auth";
-import type { Post } from "./type";
+} from 'react';
+import apiClient from './api';
+import { useAuth } from './auth';
+import type { Post } from './type';
 
 interface ApiAuthor {
   id: string;
@@ -65,7 +65,7 @@ export const encodeQueryParams = ({
   >;
 }) => {
   if (!params) {
-    return "";
+    return '';
   }
   const queryParameters = new URLSearchParams();
 
@@ -129,7 +129,7 @@ export const PostProvider = ({ children }: PostProviderProps) => {
       }));
       setPosts(formattedPosts);
     } catch (error) {
-      console.error("Failed to fetch posts:", error);
+      console.error('Failed to fetch posts:', error);
       setPosts(null);
     } finally {
       setIsLoading(false);
@@ -145,7 +145,7 @@ export const PostProvider = ({ children }: PostProviderProps) => {
         return prevPosts.map((post) =>
           post.id === postId
             ? { ...post, isBookmarked: !post.isBookmarked }
-            : post,
+            : post
         );
       });
 
@@ -161,13 +161,13 @@ export const PostProvider = ({ children }: PostProviderProps) => {
           await apiClient.post(`/api/post/${postId}/bookmark`);
         }
       } catch (error) {
-        console.error("북마크 처리 실패:", error);
-        alert("북마크 처리에 실패했습니다.");
+        console.error('북마크 처리 실패:', error);
+        alert('북마크 처리에 실패했습니다.');
         // API 호출 실패 시, 상태를 원래대로 되돌림
         setPosts(originalPosts);
       }
     },
-    [posts],
+    [posts]
   );
 
   const value = useMemo(
@@ -178,7 +178,7 @@ export const PostProvider = ({ children }: PostProviderProps) => {
       fetchPosts,
       toggleBookmark,
     }),
-    [posts, isLoading, paginator, fetchPosts, toggleBookmark],
+    [posts, isLoading, paginator, fetchPosts, toggleBookmark]
   );
   return <PostContext.Provider value={value}>{children}</PostContext.Provider>;
 };
@@ -186,7 +186,7 @@ export const PostProvider = ({ children }: PostProviderProps) => {
 export const usePosts = () => {
   const context = useContext(PostContext);
   if (context === undefined) {
-    throw new Error("usePosts must be used within a PostProvider");
+    throw new Error('usePosts must be used within a PostProvider');
   }
   return context;
 };
